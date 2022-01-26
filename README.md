@@ -2,4 +2,5 @@
 
 - Part0: Done
 - Part1: Done
-- Part2: WIP
+- Part2: Done
+- Part3: WIP

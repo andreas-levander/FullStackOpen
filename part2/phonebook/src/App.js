@@ -7,6 +7,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [phonenumber, setPhoneNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notification, setNotification] = useState({message: null})
 
   useEffect(() => {
     console.log('effect')
@@ -37,9 +38,13 @@ const App = () => {
         .then(returnedUpdate => {
           console.log(returnedUpdate)
           setPersons(persons.map(person => person.id !== returnedUpdate.id ? person : returnedUpdate))
+          setNotification({message:`Contact updated: ${returnedUpdate.name}`, type: 'update'})
+          setTimeout(() => setNotification({message: null}), 5000)
         })
         .catch(error => {
-          console.log(error)
+          setNotification({message:`Contact already deleted: ${person.name}`, type: 'error'})
+          setTimeout(() => setNotification({message: null}), 5000)
+          setPersons(persons.filter(contact => contact.id !== person.id))
         })
       }
       return;
@@ -53,6 +58,9 @@ const App = () => {
         setPersons(persons.concat(returnedContact));
         setNewName('');
         setPhoneNumber('');
+        setNotification({message: `New contact added: ${returnedContact.name}`, type: 'add'})
+        setTimeout(() => setNotification({message: null}), 5000)
+        
       })
       .catch(error => {
         console.log(error)
@@ -94,6 +102,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification.message} type={notification.type}/>
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       <h3>Add a new</h3>
       <Personform addPerson={addPerson} newName={newName} handleNameChange={handleNameChange} phonenumber={phonenumber} setPhoneNumber={setPhoneNumber}/>
@@ -134,6 +143,30 @@ const Personform = ({addPerson,newName,handleNameChange,phonenumber, setPhoneNum
       <button type="submit">add</button>
     </div>
   </form>
+  )
+}
+
+const Notification = ({ message, type }) => {
+  const notifStyle = {
+      color: 'green',
+      background: 'lightgrey',
+      fontSize: 20,
+      borderStyle: 'solid',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10,
+
+  }
+  if (message === null) {
+    return null
+  }
+
+  if(type === 'error') notifStyle.color = 'red'
+
+  return (
+    <div className='notification' style={notifStyle}>
+      {message}
+    </div>
   )
 }
 

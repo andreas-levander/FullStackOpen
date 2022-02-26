@@ -33,10 +33,10 @@ const mostBlogs = (blogs) => {
 
     const mostblogs = { author: null, blogs: 0 };
 
-    for (const [key, value] of Object.entries(result)) {
-        if(value.length > mostblogs.blogs) {
-            mostblogs.author = key;
-            mostblogs.blogs = value.length;
+    for (const [author, blogs] of Object.entries(result)) {
+        if(blogs.length > mostblogs.blogs) {
+            mostblogs.author = author;
+            mostblogs.blogs = blogs.length;
         }
     }
     return mostblogs;
@@ -46,8 +46,8 @@ const mostLikes = (blogs) => {
     const result = {};
 
     blogs.forEach((blog) => {
-        let name = blog.author;
-        result[name] = (isNaN(result[name]) ? 0 : result[name]) + blog.likes;
+        let {author} = blog;
+        result[author] = (isNaN(result[author]) ? 0 : result[author]) + blog.likes;
     })
     const mostlikes = {author: null,likes: -1};
 

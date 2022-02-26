@@ -1,13 +1,10 @@
-const app = require('./app');
-const http = require('http');
+import app from './app.js';
+import { createServer } from 'http';
+import { PORT } from './utils/config.js';
+import * as logger from './utils/logger.js';
 
-const logger = require('./utils/logger');
+const server = createServer(app);
 
-const server = http.createServer(app);
-
-
-
-const PORT = 3003;
 server.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`)
 })

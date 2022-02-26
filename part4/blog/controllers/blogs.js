@@ -1,7 +1,7 @@
+import express from 'express';
+import Blog from '../models/blog.js';
 
-const blogRouter = require('express').Router();
-const Blog = require("../models/blog.js");
-
+const blogRouter = express.Router();
 
 blogRouter.get('/', (request, response) => {
     Blog
@@ -23,4 +23,4 @@ blogRouter.post('/', (request, response) => {
 })
 
 
-module.exports = blogRouter;
+export default blogRouter;

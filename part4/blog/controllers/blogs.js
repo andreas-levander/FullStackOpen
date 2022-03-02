@@ -3,14 +3,14 @@ import Blog from '../models/blog.js';
 
 const blogRouter = express.Router();
 
-blogRouter.get('/', (request, response) => {
+blogRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({});
       
     response.json(blogs);
       
   })
   
-blogRouter.post('/', (request, response) => {
+blogRouter.post('/', async (request, response) => {
 
     const blog = new Blog(request.body);
   

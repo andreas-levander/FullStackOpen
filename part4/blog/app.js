@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import * as logger from './utils/logger.js';
 import blogRouter from './controllers/blogs.js';
 import { MONGODB_URI } from './utils/config.js';
+import { errorHandler } from './utils/middleware.js';
 
 const app = express();
 
@@ -20,5 +21,7 @@ mongoose.connect(MONGODB_URI)
 app.use(cors());
 app.use(express.json());
 app.use('/api/blogs', blogRouter);
+
+app.use(errorHandler);
 
 export default app;

@@ -72,6 +72,32 @@ test('expect code 400 if title and url missing from request', async () => {
   expect(response.status).toEqual(400);
 })
 
+test('delete removes the resource', async () => {
+  const blogs = await helper.blogsInDb();
+  const firstblog = blogs[0];
+  const id = firstblog.id;
+
+  await api.delete(`/api/blogs/${id}`);
+  
+  const blogsafter = await helper.blogsInDb();
+  
+  expect(blogsafter).not.toContainEqual(firstblog);
+})
+
+test('set updates the resource', async () => {
+  const blogs = await helper.blogsInDb();
+  const firstblog = blogs[0];
+  const id = firstblog.id;
+
+  const updatedblog = {likes:99}
+
+  await api.put(`/api/blogs/${id}`).send(updatedblog);
+  
+  const blogsafter = await helper.blogsInDb();
+  
+  expect(blogsafter[0].likes).toEqual(99);
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })

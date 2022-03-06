@@ -1,10 +1,11 @@
 POST http://localhost:3001/api/blogs
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QyIiwiaWQiOiI2MjI0Y2M1ZGM3ODNkMjRiNTIwNjg4YjMiLCJpYXQiOjE2NDY1ODE3MTV9.VkbPJzGkdotojql2VxxYhxcbKnREN9C0chmFctAunyo
 
 {
-    "title": "blog003",
+    "title": "blog005",
     "author": "John B",
-    "url": "/blog003",
-    "likes": "10000"
+    "url": "/blog005",
+    "likes": "132"
     }
     

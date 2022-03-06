@@ -75,9 +75,8 @@ test('expect code 400 if title and url missing from request', async () => {
 test('delete removes the resource', async () => {
   const blogs = await helper.blogsInDb();
   const firstblog = blogs[0];
-  const id = firstblog.id;
 
-  await api.delete(`/api/blogs/${id}`);
+  await api.delete(`/api/blogs/${firstblog.id}`);
   
   const blogsafter = await helper.blogsInDb();
   
@@ -87,11 +86,10 @@ test('delete removes the resource', async () => {
 test('set updates the resource', async () => {
   const blogs = await helper.blogsInDb();
   const firstblog = blogs[0];
-  const id = firstblog.id;
 
   const updatedblog = {likes:99}
 
-  await api.put(`/api/blogs/${id}`).send(updatedblog);
+  await api.put(`/api/blogs/${firstblog.id}`).send(updatedblog);
   
   const blogsafter = await helper.blogsInDb();
   

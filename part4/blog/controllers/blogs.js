@@ -1,27 +1,48 @@
 import express from 'express';
 import Blog from '../models/blog.js';
+import User from '../models/user.js';
+import jwt from 'jsonwebtoken';
+import { SECRET } from '../utils/config.js';
 
 const blogRouter = express.Router();
 
 blogRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({});
+    const blogs = await Blog
+      .find({})
+      .populate('users', { username: 1, name: 1, id: 1 });
       
     response.json(blogs);
       
   })
   
 blogRouter.post('/', async (request, response) => {
-    const body = request.body;
+    const {author, title, url, likes} = request.body;
 
-    if (!body.title && !body.url) {
-      response.status(400).end();
-      return;
+    const decodedToken = jwt.verify(request.token, SECRET);
+
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
     }
-    const blog = new Blog(body);
+    const user = await User.findById(decodedToken.id);
+
+    if (!title && !url) {
+      return response.status(400).end();
+    }
+
+    const blog = new Blog({
+      author,
+      title,
+      url,
+      likes,
+      user: user._id
+    });
   
-    const savednote = await blog.save();
+    const savedblog = await blog.save();
+
+    user.blogs = user.blogs.concat(savedblog._id);
+    await user.save();
       
-    response.status(201).json(savednote);
+    response.status(201).json(savedblog);
       
 })
 

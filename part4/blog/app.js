@@ -7,7 +7,7 @@ import blogRouter from './controllers/blogs.js';
 import usersRouter from './controllers/users.js';
 import loginRouter from './controllers/login.js';
 import { MONGODB_URI } from './utils/config.js';
-import { errorHandler, tokenExtractor } from './utils/middleware.js';
+import { errorHandler, tokenExtractor, userExtractor } from './utils/middleware.js';
 
 const app = express();
 
@@ -24,7 +24,7 @@ mongoose.connect(MONGODB_URI)
 app.use(cors());
 app.use(express.json());
 app.use(tokenExtractor);
-app.use('/api/blogs', blogRouter);
+app.use('/api/blogs', userExtractor, blogRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 

@@ -4,4 +4,5 @@
 - Part1: Done
 - Part2: Done
 - Part3: https://github.com/andreas-levander/FullStackOpenPart3
-- Part4: WIP
+- Part4: Done
+- Part5: WIP

@@ -16,7 +16,10 @@ const Loginform = ({ setUser }) => {
         })
         setToken(user.token)
         setUser(user)
-        console.log(user)
+
+        window.localStorage.setItem(
+            'loggedBlogappUser', JSON.stringify(user)
+        ) 
         setUsername('')
         setPassword('')
       } catch (exception) {

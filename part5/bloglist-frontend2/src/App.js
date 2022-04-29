@@ -8,10 +8,21 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    if (user) {
+      blogService.getAll().then(blogs =>
+        setBlogs( blogs )
+      )
+    }  
   }, [user])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
 
   return (
     <div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createBlog } from "../services/blogs";
 
-const CreateBlog = ({blogs, setBlogs}) => {
+const CreateBlog = ({blogs, setBlogs, setNotification}) => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [url, setUrl] = useState('');
@@ -10,21 +10,24 @@ const CreateBlog = ({blogs, setBlogs}) => {
         event.preventDefault();
         
         try {
-        const newblog = {
-            title,
-            author,
-            url
-        }
-        await createBlog(newblog);
-        setTitle('');
-        setAuthor('');
-        setUrl('');
-        setBlogs(blogs.concat(newblog));
-        } catch (exception) {
-            //setErrorMessage('Wrong credentials')
-            setTimeout(() => {
+          const newblog = {
+              title,
+              author,
+              url
+          }
+          await createBlog(newblog);
+          setTitle('');
+          setAuthor('');
+          setUrl('');
+          setBlogs(blogs.concat(newblog));
+          setNotification({message: `Created new blog: ${newblog.title}`, type: 'create-blog'});
+          setTimeout(() => setNotification({message: null}), 5000)
+      } catch (exception) {
+          setNotification({message: 'Wrong credentials', type: 'error'});
+          setTimeout(() => setNotification({message: null}), 5000)
+          setTimeout(() => {
               //setErrorMessage(null)
-            }, 5000)
+          }, 5000)
         }
     }
 

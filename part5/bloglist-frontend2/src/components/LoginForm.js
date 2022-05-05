@@ -3,7 +3,7 @@ import * as loginService from '../services/login';
 import { setToken } from "../services/blogs";
 
 
-const Loginform = ({ setUser }) => {
+const Loginform = ({ setUser, setNotification }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
   
@@ -22,8 +22,10 @@ const Loginform = ({ setUser }) => {
         ) 
         setUsername('')
         setPassword('')
-      } catch (exception) {
+    } catch (exception) {
         //setErrorMessage('Wrong credentials')
+        setNotification({message: `Wrong credentials`, type: 'error'});
+        setTimeout(() => setNotification({message: null}), 5000)
         setTimeout(() => {
           //setErrorMessage(null)
         }, 5000)

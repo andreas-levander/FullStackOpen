@@ -14,9 +14,9 @@ const Blogs = ({blogs, user, setUser, setBlogs, setNotification}) => {
     return (
       <div>
         <h2>blogs</h2>
-        <p>logged in as {user.name}</p>
+        logged in as {user.name}
         <button onClick={handlelogout}>logout</button>
-        <Togglable buttonLabel={'New blog'} ref={createBlogRef}>
+        <Togglable buttonLabelShow={'New blog'} buttonLabelHide={"cancel"} ref={createBlogRef}>
           <CreateBlog setBlogs={setBlogs} blogs={blogs} setNotification={setNotification} toggleref={createBlogRef}/>
         </Togglable>
         {blogs.map(blog =>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createBlog } from "../services/blogs";
+import { createBlog, getAll } from "../services/blogs";
 
 const CreateBlog = ({blogs, setBlogs, setNotification, toggleref}) => {
     const [title, setTitle] = useState('');
@@ -21,7 +21,10 @@ const CreateBlog = ({blogs, setBlogs, setNotification, toggleref}) => {
           setAuthor('');
           setUrl('');
 
-          setBlogs(blogs.concat(returnedblog));
+          //setBlogs(blogs.concat(returnedblog));
+          //refetching all to get userdata for remove button since we dont have user id in frontend without changing backend
+          const getAllBlogs = await getAll();
+          setBlogs(getAllBlogs);
 
           setNotification({message: `Created new blog: ${newblog.title}`, type: 'create-blog'});
           setTimeout(() => setNotification({message: null}), 5000)

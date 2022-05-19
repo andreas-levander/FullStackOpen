@@ -15,18 +15,21 @@ const Blogs = ({blogs, user, setUser, setBlogs, setNotification}) => {
     const handleLikesClick = async (blog) => {
       try {
         const updatedBlog = await updateBlog({...blog, likes: blog.likes + 1});
-        setBlogs(blogs.map(blog => (blog.id === updatedBlog.id) ? updatedBlog : blog));
+        setBlogs(blogs.map(blog => (blog.id === updatedBlog.id) ? {...blog, likes: updatedBlog.likes}: blog));
+        
     } catch {
         console.log('error updating likes');
       }
     }
 
     const handleRemoveBlog = async (blog) => {
-      try {
-        await removeBlog(blog);
-        setBlogs(blogs.filter(blog_in_blogs => (blog_in_blogs.id !== blog.id)));
-    } catch {
-        console.log('error removing blog');
+      if (window.confirm(`Do you with to delete ${blog.title}?`)) {
+        try {
+          await removeBlog(blog);
+          setBlogs(blogs.filter(blog_in_blogs => (blog_in_blogs.id !== blog.id)));
+      } catch {
+          console.log('error removing blog');
+        }
       }
     }
 
@@ -39,7 +42,7 @@ const Blogs = ({blogs, user, setUser, setBlogs, setNotification}) => {
           <CreateBlog setBlogs={setBlogs} blogs={blogs} setNotification={setNotification} toggleref={createBlogRef}/>
         </Togglable>
         {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-          <Blog key={blog.id} blog={blog} handleLikesClick={handleLikesClick} handleRemoveBlog={handleRemoveBlog}/>
+          <Blog key={blog.id} blog={blog} handleLikesClick={handleLikesClick} handleRemoveBlog={handleRemoveBlog} user={user}/>
         )}
         
       </div>

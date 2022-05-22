@@ -1,77 +1,78 @@
-import { useState } from "react";
-import { createBlog, getAll } from "../services/blogs";
+/* eslint-disable no-unused-vars */
+import { useState } from 'react'
+import { createBlog, getAll } from '../services/blogs'
 
-const CreateBlog = ({blogs, setBlogs, setNotification, toggleref}) => {
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [url, setUrl] = useState('');
+const CreateBlog = ({ blogs, setBlogs, setNotification, toggleref }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
-    const handleCreateBlog = async (event) => {
-        event.preventDefault();
-        
-        try {
-          const newblog = {
-              title,
-              author,
-              url
-          }
-          const returnedblog = await createBlog(newblog);
+  const handleCreateBlog = async (event) => {
+    event.preventDefault()
 
-          setTitle('');
-          setAuthor('');
-          setUrl('');
+    try {
+      const newblog = {
+        title,
+        author,
+        url
+      }
+      const returnedblog = await createBlog(newblog)
 
-          //setBlogs(blogs.concat(returnedblog));
-          //refetching all to get userdata for remove button since we dont have user id in frontend without changing backend
-          const getAllBlogs = await getAll();
-          setBlogs(getAllBlogs);
+      setTitle('')
+      setAuthor('')
+      setUrl('')
 
-          setNotification({message: `Created new blog: ${newblog.title}`, type: 'create-blog'});
-          setTimeout(() => setNotification({message: null}), 5000)
+      //setBlogs(blogs.concat(returnedblog));
+      //refetching all to get userdata for remove button since we dont have user id in frontend without changing backend
+      const getAllBlogs = await getAll()
+      setBlogs(getAllBlogs)
 
-          toggleref.current.toggleVisibility();
-          
-          
-      } catch (exception) {
-          setNotification({message: 'Wrong credentials', type: 'error'});
-          setTimeout(() => setNotification({message: null}), 5000)
-          setTimeout(() => {
-              //setErrorMessage(null)
-          }, 5000)
-        }
+      setNotification({ message: `Created new blog: ${newblog.title}`, type: 'create-blog' })
+      setTimeout(() => setNotification({ message: null }), 5000)
+
+      toggleref.current.toggleVisibility()
+
+
+    } catch (exception) {
+      setNotification({ message: 'Wrong credentials', type: 'error' })
+      setTimeout(() => setNotification({ message: null }), 5000)
+      setTimeout(() => {
+        //setErrorMessage(null)
+      }, 5000)
     }
+  }
 
-    return (
-        <form onSubmit={handleCreateBlog}>
-        <h2>create new</h2>
-        <div>
+  return (
+    <form onSubmit={handleCreateBlog}>
+      <h2>create new</h2>
+      <div>
         title:<input
           type="text"
           value={title}
           name="title"
           onChange={({ target }) => setTitle(target.value)}
         />
-        </div>
-        <div>
+      </div>
+      <div>
         author:<input
           type="text"
           value={author}
           name="author"
           onChange={({ target }) => setAuthor(target.value)}
         />
-        </div>
-        <div>
+      </div>
+      <div>
         url:<input
           type="text"
           value={url}
           name="url"
           onChange={({ target }) => setUrl(target.value)}
         />
-        </div>
-        <button type="submit">create</button>
-        
-        </form>
-    )
+      </div>
+      <button type="submit">create</button>
+
+    </form>
+  )
 }
 
 export default CreateBlog

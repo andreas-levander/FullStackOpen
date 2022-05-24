@@ -2,48 +2,23 @@
 import { useState } from 'react'
 import { createBlog, getAll } from '../services/blogs'
 
-const CreateBlog = ({ blogs, setBlogs, setNotification, toggleref }) => {
+const CreateBlog = ({ handleCreateBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const handleCreateBlog = async (event) => {
+  const createBlog = async (event) => {
     event.preventDefault()
 
-    try {
-      const newblog = {
-        title,
-        author,
-        url
-      }
-      const returnedblog = await createBlog(newblog)
+    handleCreateBlog({ title, author, url })
 
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-
-      //setBlogs(blogs.concat(returnedblog));
-      //refetching all to get userdata for remove button since we dont have user id in frontend without changing backend
-      const getAllBlogs = await getAll()
-      setBlogs(getAllBlogs)
-
-      setNotification({ message: `Created new blog: ${newblog.title}`, type: 'create-blog' })
-      setTimeout(() => setNotification({ message: null }), 5000)
-
-      toggleref.current.toggleVisibility()
-
-
-    } catch (exception) {
-      setNotification({ message: 'Wrong credentials', type: 'error' })
-      setTimeout(() => setNotification({ message: null }), 5000)
-      setTimeout(() => {
-        //setErrorMessage(null)
-      }, 5000)
-    }
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
-    <form onSubmit={handleCreateBlog}>
+    <form onSubmit={createBlog}>
       <h2>create new</h2>
       <div>
         title:<input
@@ -51,6 +26,7 @@ const CreateBlog = ({ blogs, setBlogs, setNotification, toggleref }) => {
           value={title}
           name="title"
           onChange={({ target }) => setTitle(target.value)}
+          placeholder="title"
         />
       </div>
       <div>
@@ -59,6 +35,7 @@ const CreateBlog = ({ blogs, setBlogs, setNotification, toggleref }) => {
           value={author}
           name="author"
           onChange={({ target }) => setAuthor(target.value)}
+          placeholder="author"
         />
       </div>
       <div>
@@ -67,6 +44,7 @@ const CreateBlog = ({ blogs, setBlogs, setNotification, toggleref }) => {
           value={url}
           name="url"
           onChange={({ target }) => setUrl(target.value)}
+          placeholder="url"
         />
       </div>
       <button type="submit">create</button>

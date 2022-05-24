@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
@@ -44,7 +41,11 @@
     "@babel/core": "^7.18.0",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/preset-env": "^7.18.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^14.2.0",
     "eslint": "^8.16.0",
-    "eslint-plugin-jest": "^26.2.2"
+    "eslint-plugin-jest": "^26.2.2",
+    "jest-watch-typeahead": "^0.6.5"
   }
 }

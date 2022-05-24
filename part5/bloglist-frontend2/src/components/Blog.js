@@ -20,15 +20,14 @@ const Blog = ({ blog, handleLikesClick, handleRemoveBlog, user }) => {
 
 
   return (
-    <div style={blogStyle}>
-      {blog.title}
+    <div style={blogStyle} className='blogdiv'>
+      {blog.title} {blog.author}
       <button onClick={toggleVisibility}>{buttontext}</button>
       {visible ?
-        <div>
+        <div className='togglableBlogContent'>
           <div>{blog.url}</div>
           <div>likes {blog.likes}<button onClick={() => handleLikesClick(blog)}>like</button></div>
-          <div>{blog.author}</div>
-          {blog.user.username === user.username ?
+          {(blog && user && blog.user.username === user.username) ?
             <button onClick={() => handleRemoveBlog(blog)}>remove</button>
             : null
           }

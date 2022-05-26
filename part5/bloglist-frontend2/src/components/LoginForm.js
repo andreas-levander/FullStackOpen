@@ -24,12 +24,8 @@ const Loginform = ({ setUser, setNotification }) => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      //setErrorMessage('Wrong credentials')
       setNotification({ message: 'Wrong credentials', type: 'error' })
       setTimeout(() => setNotification({ message: null }), 5000)
-      setTimeout(() => {
-        //setErrorMessage(null)
-      }, 5000)
     }
     console.log('logging in with', username, password)
   }
@@ -39,6 +35,7 @@ const Loginform = ({ setUser, setNotification }) => {
         <h2>Login to the application</h2>
         username
         <input
+          id='username'
           type="text"
           value={username}
           name="Username"
@@ -48,13 +45,14 @@ const Loginform = ({ setUser, setNotification }) => {
       <div>
         password
         <input
+          id='password'
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id='loginbutton' type="submit">login</button>
     </form>
   )
 }

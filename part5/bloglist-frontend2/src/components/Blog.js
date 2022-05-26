@@ -17,18 +17,16 @@ const Blog = ({ blog, handleLikesClick, handleRemoveBlog, user }) => {
     marginBottom: 5
   }
 
-
-
   return (
     <div style={blogStyle} className='blogdiv'>
       {blog.title} {blog.author}
-      <button onClick={toggleVisibility}>{buttontext}</button>
+      <button onClick={toggleVisibility} id='toggle-blog'>{buttontext}</button>
       {visible ?
         <div className='togglableBlogContent'>
           <div>{blog.url}</div>
-          <div>likes {blog.likes}<button onClick={() => handleLikesClick(blog)}>like</button></div>
+          <div>likes {blog.likes}<button id='likebutton' onClick={() => handleLikesClick(blog)}>like</button></div>
           {(blog && user && blog.user.username === user.username) ?
-            <button onClick={() => handleRemoveBlog(blog)}>remove</button>
+            <button onClick={() => handleRemoveBlog(blog)} id='remove-blog-button'>remove</button>
             : null
           }
 

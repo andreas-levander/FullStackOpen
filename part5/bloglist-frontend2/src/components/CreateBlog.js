@@ -22,6 +22,7 @@ const CreateBlog = ({ handleCreateBlog }) => {
       <h2>create new</h2>
       <div>
         title:<input
+          id='title'
           type="text"
           value={title}
           name="title"
@@ -31,6 +32,7 @@ const CreateBlog = ({ handleCreateBlog }) => {
       </div>
       <div>
         author:<input
+          id='author'
           type="text"
           value={author}
           name="author"
@@ -40,6 +42,7 @@ const CreateBlog = ({ handleCreateBlog }) => {
       </div>
       <div>
         url:<input
+          id='url'
           type="text"
           value={url}
           name="url"
@@ -47,7 +50,7 @@ const CreateBlog = ({ handleCreateBlog }) => {
           placeholder="url"
         />
       </div>
-      <button type="submit">create</button>
+      <button id='createblog' type="submit">create</button>
 
     </form>
   )

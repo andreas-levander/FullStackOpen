@@ -48,11 +48,8 @@ const Blogs = ({ blogs, user, setUser, setBlogs, setNotification }) => {
 
       createBlogRef.current.toggleVisibility()
     } catch (exception) {
-      setNotification({ message: 'Wrong credentials', type: 'error' })
+      setNotification({ message: 'Error creating blog maybe wrong credentials', type: 'error' })
       setTimeout(() => setNotification({ message: null }), 5000)
-      setTimeout(() => {
-      //setErrorMessage(null)
-      }, 5000)
     }
   }
 
@@ -64,9 +61,11 @@ const Blogs = ({ blogs, user, setUser, setBlogs, setNotification }) => {
       <Togglable buttonLabelShow={'New blog'} buttonLabelHide={'cancel'} ref={createBlogRef}>
         <CreateBlog handleCreateBlog={handleCreateBlog}/>
       </Togglable>
-      {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} handleLikesClick={handleLikesClick} handleRemoveBlog={handleRemoveBlog} user={user}/>
-      )}
+      <div className='bloglist'>
+        {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
+          <Blog key={blog.id} blog={blog} handleLikesClick={handleLikesClick} handleRemoveBlog={handleRemoveBlog} user={user}/>
+        )}
+      </div>
 
     </div>
   )

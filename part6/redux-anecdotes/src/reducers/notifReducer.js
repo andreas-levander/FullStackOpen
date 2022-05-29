@@ -19,7 +19,7 @@ export const setNotification = (message, timeout) => {
     return dispatch => {
       dispatch(cancelTimeout())
       const lastcalled = setTimeout(() => dispatch(hideNotif()), timeout * 1000)
-      dispatch(showNotif({message, lastcalled}))
+      dispatch(showNotif({ message, lastcalled }))
     }
   }
 

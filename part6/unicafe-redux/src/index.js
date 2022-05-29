@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './reducer';
+import counterReducer from './reducer'
 
 const store = configureStore({ reducer: counterReducer })
 

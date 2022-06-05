@@ -8,6 +8,8 @@ const userStatsSlice = createSlice({
       action.payload.map((user) => ({
         name: user.name,
         created: user.blogs.length,
+        username: user.username,
+        blogs: user.blogs,
       })),
   },
 });

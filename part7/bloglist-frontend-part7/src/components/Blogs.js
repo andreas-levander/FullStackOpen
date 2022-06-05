@@ -2,46 +2,20 @@ import Blog from "./Blog";
 import CreateBlog from "./CreateBlog";
 import Togglable from "./Togglable";
 import { useRef } from "react";
-import { updateBlog, removeBlog, createBlog, getAll } from "../services/blogs";
+import { createBlog, getAll } from "../services/blogs";
 import { setNotification } from "../reducers/notificationReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { setBlogs, likeBlog, deleteBlog } from "../reducers/blogsReducer";
-import { setUser } from "../reducers/userReducer";
-import { Routes, Route } from "react-router-dom";
+import { setBlogs } from "../reducers/blogsReducer";
+import { Routes, Route, Link } from "react-router-dom";
 import Users from "./Users";
 import NavBar from "./NavBar";
+import User from "./User";
 
 const Blogs = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
-  const user = useSelector((state) => state.user);
 
-  const handlelogout = () => {
-    console.log("logout");
-    window.localStorage.removeItem("loggedBlogappUser");
-    dispatch(setUser(null));
-  };
   const createBlogRef = useRef();
-
-  const handleLikesClick = async (blog) => {
-    try {
-      const updatedBlog = await updateBlog({ ...blog, likes: blog.likes + 1 });
-      dispatch(likeBlog(updatedBlog));
-    } catch {
-      console.log("error updating likes");
-    }
-  };
-
-  const handleRemoveBlog = async (blog) => {
-    if (window.confirm(`Do you with to delete ${blog.title}?`)) {
-      try {
-        await removeBlog(blog);
-        dispatch(deleteBlog(blog));
-      } catch {
-        console.log("error removing blog");
-      }
-    }
-  };
 
   const handleCreateBlog = async (newblog) => {
     try {
@@ -69,13 +43,19 @@ const Blogs = () => {
     }
   };
 
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: "solid",
+    borderWidth: 1,
+    marginBottom: 5,
+  };
+
   return (
     <div>
       <div>
         <NavBar />
         <h2>blogs</h2>
-        logged in as {user.name}
-        <button onClick={handlelogout}>logout</button>
       </div>
       <Routes>
         <Route
@@ -93,18 +73,19 @@ const Blogs = () => {
                 {[...blogs]
                   .sort((a, b) => b.likes - a.likes)
                   .map((blog) => (
-                    <Blog
-                      key={blog.id}
-                      blog={blog}
-                      handleLikesClick={handleLikesClick}
-                      handleRemoveBlog={handleRemoveBlog}
-                    />
+                    <div style={blogStyle} key={blog.id}>
+                      <Link key={blog.id} to={`blogs/${blog.id}`}>
+                        {blog.title} {blog.author}
+                      </Link>
+                    </div>
                   ))}
               </div>
             </div>
           }
         />
         <Route path="/users" element={<Users />} />
+        <Route path="/users/:username" element={<User />} />
+        <Route path="/blogs/:id" element={<Blog />} />
       </Routes>
     </div>
   );

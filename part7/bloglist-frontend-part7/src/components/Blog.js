@@ -1,48 +1,60 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import * as blogService from "../services/blogs";
+import { likeBlog, deleteBlog } from "../reducers/blogsReducer";
 
-const Blog = ({ blog, handleLikesClick, handleRemoveBlog }) => {
-  const [visible, setVisible] = useState(false);
-  const [buttontext, setButtonText] = useState("show");
+const Blog = () => {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const blog = useSelector((state) => state.blogs).find(
+    (blog) => blog.id === id
+  );
 
-  const toggleVisibility = () => {
-    setVisible(!visible);
-    setButtonText(visible ? "show" : "hide");
+  const handleLikesClick = async (blog) => {
+    try {
+      const updatedBlog = await blogService.updateBlog({
+        ...blog,
+        likes: blog.likes + 1,
+      });
+      dispatch(likeBlog(updatedBlog));
+    } catch {
+      console.log("error updating likes");
+    }
   };
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
+  const handleRemoveBlog = async (blog) => {
+    if (window.confirm(`Do you with to delete ${blog.title}?`)) {
+      try {
+        await blogService.removeBlog(blog);
+        dispatch(deleteBlog(blog));
+      } catch {
+        console.log("error removing blog");
+      }
+    }
   };
 
   return (
-    <div style={blogStyle} className="blogdiv">
-      {blog.title} {blog.author}
-      <button onClick={toggleVisibility} id="toggle-blog">
-        {buttontext}
-      </button>
-      {visible ? (
-        <div className="togglableBlogContent">
-          <div>{blog.url}</div>
-          <div>
-            likes {blog.likes}
-            <button id="likebutton" onClick={() => handleLikesClick(blog)}>
-              like
-            </button>
-          </div>
-          {blog && user && blog.user.username === user.username ? (
-            <button
-              onClick={() => handleRemoveBlog(blog)}
-              id="remove-blog-button"
-            >
-              remove
-            </button>
-          ) : null}
-        </div>
+    <div className="blogdiv">
+      <h1>
+        {blog.title} {blog.author}
+      </h1>
+
+      <div>{blog.url}</div>
+      <div>
+        likes {blog.likes}
+        <button id="likebutton" onClick={() => handleLikesClick(blog)}>
+          like
+        </button>
+      </div>
+      {blog.user.username !== user.username && (
+        <div>created by {blog.user.name}</div>
+      )}
+      {blog && user && blog.user.username === user.username ? (
+        <button onClick={() => handleRemoveBlog(blog)} id="remove-blog-button">
+          remove
+        </button>
       ) : null}
     </div>
   );

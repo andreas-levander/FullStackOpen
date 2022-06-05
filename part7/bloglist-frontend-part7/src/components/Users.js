@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as userService from "../services/users";
 import { setUserStats } from "../reducers/userStatsReducer";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -13,8 +14,25 @@ const Users = () => {
 
   return (
     <div>
-      {console.log(users)}
       <h1>Users</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>blogs created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.username}>
+              <td>
+                <Link to={user.username}>{user.name}</Link>
+              </td>
+              <td>{user.created}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

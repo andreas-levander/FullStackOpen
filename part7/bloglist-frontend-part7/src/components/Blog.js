@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
-const Blog = ({ blog, handleLikesClick, handleRemoveBlog, user }) => {
+const Blog = ({ blog, handleLikesClick, handleRemoveBlog }) => {
   const [visible, setVisible] = useState(false);
   const [buttontext, setButtonText] = useState("show");
+  const user = useSelector((state) => state.user);
 
   const toggleVisibility = () => {
     setVisible(!visible);

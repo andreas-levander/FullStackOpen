@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Blogs from "./components/Blogs";
 import * as blogService from "./services/blogs";
 import Loginform from "./components/LoginForm";
 import Notification from "./components/Notification";
+import { setBlogs } from "./reducers/blogsReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "./reducers/userReducer";
+import { Routes, Route } from "react-router-dom";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (user) {
-      blogService.getAll().then((blogs) => setBlogs(blogs));
+      blogService.getAll().then((blogs) => dispatch(setBlogs(blogs)));
     }
   }, [user]);
 
@@ -18,7 +22,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      dispatch(setUser(user));
       blogService.setToken(user.token);
     }
   }, []);
@@ -26,16 +30,9 @@ const App = () => {
   return (
     <div>
       <Notification />
-      {user === null ? (
-        <Loginform setUser={setUser} />
-      ) : (
-        <Blogs
-          blogs={blogs}
-          user={user}
-          setUser={setUser}
-          setBlogs={setBlogs}
-        />
-      )}
+      <Routes>
+        <Route path="*" element={user ? <Blogs /> : <Loginform />} />
+      </Routes>
     </div>
   );
 };

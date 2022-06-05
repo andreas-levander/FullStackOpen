@@ -1,15 +1,17 @@
 import { useState } from "react";
 import * as loginService from "../services/login";
 import { setToken } from "../services/blogs";
-import PropTypes from "prop-types";
 import { setNotification } from "../reducers/notificationReducer";
 import { useDispatch } from "react-redux";
+import { setUser } from "../reducers/userReducer";
+import { useNavigate } from "react-router-dom";
 
-const Loginform = ({ setUser }) => {
+const Loginform = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -20,11 +22,12 @@ const Loginform = ({ setUser }) => {
         password,
       });
       setToken(user.token);
-      setUser(user);
+      dispatch(setUser(user));
 
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       setUsername("");
       setPassword("");
+      navigate("/");
     } catch (exception) {
       dispatch(setNotification("Wrong credentials", "error", 3));
     }
@@ -58,14 +61,6 @@ const Loginform = ({ setUser }) => {
       </button>
     </form>
   );
-};
-
-Loginform.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  handleUsernameChange: PropTypes.func.isRequired,
-  handlePasswordChange: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
 };
 
 export default Loginform;

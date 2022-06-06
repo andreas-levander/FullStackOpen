@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as userService from "../services/users";
 import { setUserStats } from "../reducers/userStatsReducer";
 import { Link } from "react-router-dom";
+import { Table } from "react-bootstrap";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const Users = () => {
   return (
     <div>
       <h1>Users</h1>
-      <table>
+      <Table striped>
         <thead>
           <tr>
             <th>name</th>
@@ -32,7 +33,7 @@ const Users = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };

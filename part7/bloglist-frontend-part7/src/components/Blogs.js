@@ -10,6 +10,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Users from "./Users";
 import NavBar from "./NavBar";
 import User from "./User";
+import { ListGroup } from "react-bootstrap";
 
 const Blogs = () => {
   const dispatch = useDispatch();
@@ -43,14 +44,6 @@ const Blogs = () => {
     }
   };
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-
   return (
     <div>
       <div>
@@ -70,15 +63,19 @@ const Blogs = () => {
                 <CreateBlog handleCreateBlog={handleCreateBlog} />
               </Togglable>
               <div className="bloglist">
-                {[...blogs]
-                  .sort((a, b) => b.likes - a.likes)
-                  .map((blog) => (
-                    <div style={blogStyle} key={blog.id}>
-                      <Link key={blog.id} to={`blogs/${blog.id}`}>
-                        {blog.title} {blog.author}
-                      </Link>
-                    </div>
-                  ))}
+                <ListGroup>
+                  {[...blogs]
+                    .sort((a, b) => b.likes - a.likes)
+                    .map((blog) => (
+                      <div key={blog.id}>
+                        <ListGroup.Item>
+                          <Link key={blog.id} to={`blogs/${blog.id}`}>
+                            {blog.title} {blog.author}
+                          </Link>
+                        </ListGroup.Item>
+                      </div>
+                    ))}
+                </ListGroup>
               </div>
             </div>
           }

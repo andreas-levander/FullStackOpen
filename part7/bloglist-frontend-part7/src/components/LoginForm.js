@@ -5,6 +5,7 @@ import { setNotification } from "../reducers/notificationReducer";
 import { useDispatch } from "react-redux";
 import { setUser } from "../reducers/userReducer";
 import { useNavigate } from "react-router-dom";
+import { Form, Button } from "react-bootstrap";
 
 const Loginform = () => {
   const [username, setUsername] = useState("");
@@ -34,32 +35,32 @@ const Loginform = () => {
     console.log("logging in with", username, password);
   };
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        <h2>Login to the application</h2>
-        username
-        <input
+    <Form onSubmit={handleLogin}>
+      <h2>Login to the application</h2>
+      <Form.Group>
+        <Form.Label>username</Form.Label>
+        <Form.Control
           id="username"
           type="text"
           value={username}
           name="Username"
           onChange={({ target }) => setUsername(target.value)}
         />
-      </div>
-      <div>
-        password
-        <input
+
+        <Form.Label>password</Form.Label>
+        <Form.Control
           id="password"
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
-      </div>
-      <button id="loginbutton" type="submit">
-        login
-      </button>
-    </form>
+
+        <Button variant="primary" id="Button" type="submit">
+          login
+        </Button>
+      </Form.Group>
+    </Form>
   );
 };
 

@@ -1,25 +1,19 @@
+import { Alert } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 const Notification = () => {
   const notif = useSelector((state) => state.notif);
 
-  const notifStyle = {
-    color: "green",
-    background: "lightgrey",
-    fontSize: 20,
-    borderStyle: "solid",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  };
+  const notifStyle = {};
+  let variant = "success";
 
   notifStyle.display = notif.display;
 
-  if (notif.type === "error") notifStyle.color = "red";
+  if (notif.type === "error") variant = "danger";
 
   return (
     <div className="notification" style={notifStyle}>
-      {notif.text}
+      <Alert variant={variant}>{notif.text}</Alert>
     </div>
   );
 };

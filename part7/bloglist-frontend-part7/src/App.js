@@ -28,7 +28,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <Notification />
       <Routes>
         <Route path="*" element={user ? <Blogs /> : <Loginform />} />

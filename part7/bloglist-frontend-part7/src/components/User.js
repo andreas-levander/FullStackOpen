@@ -1,3 +1,4 @@
+import { ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -11,11 +12,14 @@ const User = () => {
   return (
     <div>
       <h1>{current.name}</h1>
-      <ul>
+      <p>added blogs</p>
+      <ListGroup as="ul">
         {current.blogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
+          <ListGroup.Item as="li" key={blog.id}>
+            {blog.title}
+          </ListGroup.Item>
         ))}
-      </ul>
+      </ListGroup>
     </div>
   );
 };

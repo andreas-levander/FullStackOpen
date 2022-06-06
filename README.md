@@ -7,4 +7,5 @@
 - Part4: Done
 - Part5: Done
 - Part6: Done
-- Part7: WIP
+- Part7: Done
+- Part8: WIP

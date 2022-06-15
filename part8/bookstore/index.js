@@ -147,14 +147,15 @@ const resolvers = {
       if (args.author)
         findQuery.author = await Author.findOne({ name: args.author });
       if (args.genre) findQuery.genres = { $in: [args.genre] };
-      console.log(findQuery);
+
       return await Book.find(findQuery).populate("author");
     },
     allAuthors: async () => Author.find({}),
   },
   Author: {
-    bookCount: (root) =>
-      books.filter((book) => book.author === root.name).length,
+    bookCount: async (root) => {
+      return await Book.countDocuments({ author: root });
+    },
   },
   Mutation: {
     addBook: async (root, args) => {

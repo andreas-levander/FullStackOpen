@@ -11,9 +11,18 @@ export const ALL_AUTHORS = gql`
   }
 `;
 
-export const ALL_BOOKS = gql`
+export const CURRENT_USER = gql`
   query {
-    allBooks {
+    me {
+      username
+      favouriteGenre
+    }
+  }
+`;
+
+export const ALL_BOOKS_GENRE = gql`
+  query books_by_genre($genre: String) {
+    allBooks(genre: $genre) {
       title
       author {
         name
@@ -23,6 +32,7 @@ export const ALL_BOOKS = gql`
     }
   }
 `;
+
 // prettier-ignore
 export const ADD_BOOK = gql`
   mutation createBook(

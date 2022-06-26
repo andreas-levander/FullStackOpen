@@ -26,12 +26,12 @@ const resolvers = {
         });
       }
     },
-    allAuthors: async () => Author.find({}),
+    allAuthors: async () => Author.find({}).populate("books"),
     me: (root, args, context) => context.currentUser,
   },
   Author: {
     bookCount: async (root) => {
-      return await Book.countDocuments({ author: root });
+      return root.books.length;
     },
   },
   Mutation: {
@@ -39,12 +39,18 @@ const resolvers = {
       if (!context.currentUser)
         throw new AuthenticationError("not authenticated");
       try {
-        let author = await Author.findOne({ name: args.author });
+        let author = await Author.findOne({ name: args.author }).populate(
+          "books"
+        );
+        const newbook = new Book({ ...args, author });
         if (!author) {
-          author = new Author({ name: args.author });
+          author = new Author({ name: args.author, books: newbook });
+          await author.save();
+        } else {
+          author.books = author.books.concat(newbook);
           await author.save();
         }
-        const newbook = new Book({ ...args, author });
+
         await newbook.save();
 
         pubsub.publish("BOOK_ADDED", { bookAdded: newbook });

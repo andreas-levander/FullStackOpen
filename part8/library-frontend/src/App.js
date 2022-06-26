@@ -4,7 +4,8 @@ import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import Login from "./components/Login";
 import Recommended from "./components/Recommended";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useSubscription } from "@apollo/client";
+import { BOOK_ADDED, ALL_BOOKS_GENRE } from "./queries";
 
 const App = () => {
   const [page, setPage] = useState("authors");
@@ -20,6 +21,26 @@ const App = () => {
     localStorage.clear();
     client.resetStore();
   };
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded;
+      window.alert(`${addedBook.title} added`);
+      const genres = [...addedBook.genres, ""];
+      genres.forEach((genre) => {
+        client.cache.updateQuery(
+          { query: ALL_BOOKS_GENRE, variables: { genre } },
+          (data) => {
+            if (data)
+              return {
+                allBooks: data.allBooks.concat(addedBook),
+              };
+            return;
+          }
+        );
+      });
+    },
+  });
 
   const Notify = ({ errorMessage }) => {
     if (!errorMessage) {

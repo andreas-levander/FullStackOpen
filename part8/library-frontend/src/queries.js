@@ -11,6 +11,31 @@ export const ALL_AUTHORS = gql`
   }
 `;
 
+const BOOK_DETAILS = gql`
+  fragment BookDetails on Book {
+    title
+    published
+    genres
+    id
+    author {
+      name
+      born
+      id
+      bookCount
+    }
+  }
+`;
+
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      ...BookDetails
+    }
+  }
+
+  ${BOOK_DETAILS}
+`;
+
 export const CURRENT_USER = gql`
   query {
     me {

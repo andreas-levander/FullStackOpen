@@ -9,7 +9,17 @@ import {
   ApolloProvider,
   HttpLink,
   InMemoryCache,
+  split,
 } from "@apollo/client";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient } from "graphql-ws";
+import { getMainDefinition } from "@apollo/client/utilities";
+
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: "ws://localhost:4000/",
+  })
+);
 
 const errorlink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) console.log("gcl error", graphQLErrors);
@@ -28,7 +38,17 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const link = ApolloLink.from([errorlink, authLink, httplink]);
+const link = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  ApolloLink.from([errorlink, authLink, httplink])
+);
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

@@ -44,7 +44,7 @@ const parseExerciseArguments = (args: Array<string>): ExerciseArgs => {
 
   const period: Array<number> = [];
   for (let i = 2; i < args.length - 1; i++) {
-    let current = Number(args[i]);
+    const current = Number(args[i]);
     if (!isNaN(current)) {
       period.push(current);
     } else {
@@ -68,3 +68,5 @@ try {
   }
   console.log(errorMessage);
 }
+
+export { calculateExercises };

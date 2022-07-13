@@ -1,6 +1,6 @@
-import { CourseParts } from "./Content";
+import { CoursePart } from "../types";
 
-const Total = ({ courseParts }: { courseParts: CourseParts[] }) => (
+const Total = ({ courseParts }: { courseParts: CoursePart[] }) => (
   <p>
     Number of exercises{" "}
     {courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}

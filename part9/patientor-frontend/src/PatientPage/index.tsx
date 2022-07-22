@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useStateValue } from "../state";
+import { setPatient, useStateValue } from "../state";
 import { useEffect } from "react";
 import axios from "axios";
 import { apiBaseUrl } from "../constants";
@@ -17,7 +17,7 @@ const PatientPage = () => {
           `${apiBaseUrl}/patients/${id}`
         );
         console.log("fetching patient", id);
-        dispatch({ type: "SET_PATIENT", payload: patientFromApi });
+        dispatch(setPatient(patientFromApi));
       } catch (e) {
         console.error(e);
       }

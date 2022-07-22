@@ -18,6 +18,10 @@ apiRouter.get("/patients", (_req, res) => {
   res.send(patientService.getNonSensitivePatientData());
 });
 
+apiRouter.get("/patients/:id", (req, res) => {
+  res.send(patientService.getPatient(req.params.id));
+});
+
 apiRouter.post("/patients", (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

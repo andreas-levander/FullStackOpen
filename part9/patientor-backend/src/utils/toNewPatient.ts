@@ -6,6 +6,7 @@ type Fields = {
   ssn: unknown;
   occupation: unknown;
   gender: unknown;
+  entries: unknown[];
 };
 
 const toNewPatient = ({
@@ -21,6 +22,7 @@ const toNewPatient = ({
     ssn: parseString(ssn, "ssn"),
     occupation: parseString(occupation, "occupation"),
     gender: parseGender(gender),
+    entries: [],
   };
 
   return newPatient;

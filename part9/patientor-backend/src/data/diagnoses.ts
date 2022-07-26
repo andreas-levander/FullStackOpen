@@ -82,4 +82,6 @@ const diagnoses: DiagnoseData[] = [
   },
 ];
 
+export const diagnosesCodes = diagnoses.map((c) => c.code);
+
 export default diagnoses;

@@ -28,22 +28,22 @@ const toNewPatient = ({
   return newPatient;
 };
 
-const isString = (text: unknown): text is string => {
+export const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
 };
 
-const isDate = (date: string): boolean => {
+export const isDate = (date: string): boolean => {
   return Boolean(Date.parse(date));
 };
 
-const parseDate = (date: unknown): string => {
+export const parseDate = (date: unknown): string => {
   if (!date || !isString(date) || !isDate(date)) {
     throw new Error("Incorrect or missing date: " + date);
   }
   return date;
 };
 
-const parseString = (str: unknown, parameter: string): string => {
+export const parseString = (str: unknown, parameter: string): string => {
   if (!str || !isString(str)) {
     throw new Error(`Incorrect or missing ${parameter}: ` + str);
   }

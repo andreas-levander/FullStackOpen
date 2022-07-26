@@ -89,7 +89,7 @@ const parseType = (type: unknown): Type => {
 
 const parseHealthCheckRating = (rating: unknown): HealthCheckRating => {
   if (
-    rating &&
+    rating !== undefined &&
     Object.values(HealthCheckRating).includes(rating as HealthCheckRating)
   ) {
     return rating as HealthCheckRating;

@@ -9,4 +9,5 @@
 - Part6: Done
 - Part7: Done
 - Part8: Done
-- Part9: WIP
+- Part9: Done
+- Part12 WIP

@@ -1,6 +1,7 @@
 services:
   mongo:
     image: mongo
+    container_name: todo-mongodb
     ports:
       - 3456:27017
     environment:

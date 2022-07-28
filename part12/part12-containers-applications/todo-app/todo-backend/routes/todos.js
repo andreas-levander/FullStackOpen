@@ -22,6 +22,7 @@ const singleRouter = express.Router();
 const findByIdMiddleware = async (req, res, next) => {
   const { id } = req.params;
   req.todo = await Todo.findById(id);
+  console.log(req.todo);
   if (!req.todo) return res.sendStatus(404);
 
   next();
@@ -35,14 +36,23 @@ singleRouter.delete("/", async (req, res) => {
 
 /* GET todo. */
 singleRouter.get("/", async (req, res) => {
-  res.sendStatus(405); // Implement this
+  res.status(200).json(req.todo);
 });
 
 /* PUT todo. */
 singleRouter.put("/", async (req, res) => {
-  res.sendStatus(405); // Implement this
+  const { text, done } = req.body;
+  const updatedTodo = await Todo.findByIdAndUpdate(
+    req.todo._id,
+    {
+      text,
+      done,
+    },
+    { new: true }
+  );
+  res.status(200).json(updatedTodo); // Implement this
 });
 
-router.use("/todos/:id", findByIdMiddleware, singleRouter);
+router.use("/:id", findByIdMiddleware, singleRouter);
 
 module.exports = router;

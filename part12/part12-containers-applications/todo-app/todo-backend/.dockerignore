@@ -1,0 +1,8 @@
+.env
+.gitignore
+docker-compose.yaml
+docker-compose.dev.yaml
+README.md
+node_modules
+mongo_data
+redis_data

@@ -1,4 +1,7 @@
 node_modules
 
 .gitignore
+Dockerfile
+dev.Dockerfile
+docker-compose.dev.yml
 README.md

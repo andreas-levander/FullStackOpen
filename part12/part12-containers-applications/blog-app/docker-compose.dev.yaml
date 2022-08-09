@@ -1,0 +1,41 @@
+services:
+
+  backend:
+    image: blog-backend-dev
+    depends_on:
+      - mongo
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://the_username:the_password@mongo:27017/the_database
+      - TEST_MONGODB_URI=mongodb://user_for_testing:password@mongo:27017/blogapp-test
+      - PORT=3003
+      - SECRET=supersecret
+    volumes:
+      - ./backend:/usr/src/app/
+    ports:
+      - 3003:3003
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
+    volumes:
+      - ./backend/mongodb/init.js:/docker-entrypoint-initdb.d/init.js
+      - ./backend/mongodb/data:/data/db
+
+
+  frontend:
+    image: blog-frontend-dev
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./frontend/:/usr/src/app/
+    environment:
+      - BACKEND_URL=http://localhost:3003
+    ports:
+      - 3000:3000

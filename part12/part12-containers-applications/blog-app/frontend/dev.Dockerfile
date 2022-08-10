@@ -1,12 +1,15 @@
 FROM node:16-alpine
 
-WORKDIR /usr/src/app
+RUN mkdir /usr/app && chown node:node /usr/app
 
-COPY package*.json .
+WORKDIR /usr/app
 
-# Change npm ci to npm install since we are going to be in development mode
+USER node
+
+COPY --chown=node:node package*.json .
+
 RUN npm install
 
-COPY . .
-# npm start is the command to start the application in development mode
+COPY --chown=node:node . .
+
 CMD ["npm", "start"]

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { backend } from "..";
-const baseUrl = `${backend}/api/blogs`;
+
+const baseUrl = `/api/blogs`;
 
 let token = null;
 

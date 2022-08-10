@@ -1,6 +1,0 @@
-db.users.findOne({username: "testuser"})
-db.users.find({})
-use the_database
-show dbs
-dbs
-use admin

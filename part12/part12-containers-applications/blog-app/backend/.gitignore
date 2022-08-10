@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+/mongodb/data
+
 # testing
 /coverage
 

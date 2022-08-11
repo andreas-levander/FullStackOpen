@@ -15,7 +15,6 @@ RUN CI=true npm test
 
 FROM test as prod
 
-ENV BACKEND_URL=http://localhost:8080/api
 
 RUN npm run build
 
